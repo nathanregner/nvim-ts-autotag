@@ -449,6 +449,30 @@ M.rename_tag = function()
     end
 end
 
+local function validate_rename_normal()
+    local cursor = vim.api.nvim_win_get_cursor(0)
+    local line = vim.api.nvim_get_current_line()
+    local char = line:sub(cursor[2] + 1, cursor[2] + 1)
+    local prev_char = line:sub(cursor[2], cursor[2])
+    -- only rename when last character is a word or end of tag
+    if string.match(char, "%w") or string.match(prev_char, "%w") then
+        return true
+    end
+    return false
+end
+
+M.rename_tag_normal = function()
+    if validate_rename_normal() then
+        local ok, parser = pcall(vim.treesitter.get_parser)
+        if not ok then
+            return
+        end
+        parser:parse(true)
+        rename_start_tag()
+        rename_end_tag()
+    end
+end
+
 M.attach = function(bufnr)
     bufnr = bufnr or vim.api.nvim_get_current_buf()
     if buffer_tag[bufnr] then
@@ -501,6 +525,10 @@ M.attach = function(bufnr)
                 group = group,
                 buffer = bufnr,
                 callback = M.rename_tag,
+            })
+            vim.api.nvim_create_autocmd("TextChanged", {
+                buffer = bufnr,
+                callback = M.rename_tag_normal,
             })
         end
     end
