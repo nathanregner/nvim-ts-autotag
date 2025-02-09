@@ -6,17 +6,9 @@ const SamplePage: React.FC = () => {
 
 
   return (
-    <a className="h-full">
-
-
-
-
-
-
-
-
-
-    </a>
+    <>
+      <br></br>
+    </f>
   )
 }
 

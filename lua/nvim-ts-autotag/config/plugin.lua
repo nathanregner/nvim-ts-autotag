@@ -61,6 +61,7 @@ local function setup_tag_configs()
             "tag_name",
             "member_expression",
             "jsx_identifier",
+            "jsx_opening_element",
         },
         end_tag_pattern = { "jsx_closing_element", "end_tag" },
         end_name_tag_pattern = { "identifier", "tag_name" },

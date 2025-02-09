@@ -158,6 +158,8 @@ local function find_tag_node(opt)
     })
     if name_node then
         return name_node
+    else
+        vim.print("no name node: ", opt)
     end
 
     -- check current node is have same name of tag_match
@@ -295,8 +297,10 @@ local function validate_tag_regex(node, start_regex, end_regex)
     end
     local texts = utils.get_node_text(node)
     if string.match(texts[1], start_regex) and string.match(texts[#texts], end_regex) then
+        vim.print("valid tag: ", text)
         return true
     end
+    vim.print("invalid tag: ", text)
     return false
 end
 
@@ -320,6 +324,7 @@ local function rename_start_tag()
     })
 
     if tag_node == nil then
+        vim.print("rename_start_tag: No tag_node ,", ts_tag)
         return
     end
     if not validate_start_tag(tag_node:parent()) then
@@ -336,6 +341,7 @@ local function rename_start_tag()
     })
 
     if tag_node == nil then
+        vim.print("rename_start_tag: No tag_node")
         return
     end
 
@@ -454,8 +460,14 @@ local function validate_rename_normal()
     local line = vim.api.nvim_get_current_line()
     local char = line:sub(cursor[2] + 1, cursor[2] + 1)
     local prev_char = line:sub(cursor[2], cursor[2])
+    vim.print(prev_char, char)
     -- only rename when last character is a word or end of tag
-    if string.match(char, "%w") or string.match(prev_char, "%w") then
+    if
+        string.match(char, "%w")
+        or string.match(prev_char, "%w")
+        or ((char == " " or char == ">") and (prev_char == "<" or prev_char == "/"))
+    then
+        vim.print("match!")
         return true
     end
     return false
