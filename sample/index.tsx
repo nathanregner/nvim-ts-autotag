@@ -6,7 +6,7 @@ const SamplePage: React.FC = () => {
 
 
   return (
-    <div className="h-full">
+    <a className="h-full">
 
 
 
@@ -16,7 +16,7 @@ const SamplePage: React.FC = () => {
 
 
 
-    </div>
+    </a>
   )
 }
 
