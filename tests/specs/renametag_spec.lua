@@ -351,6 +351,25 @@ local data = {
         },
         after = [[<lala class="lla" ]],
     },
+    {
+        name = "typescriptreact skip rename with error",
+        filepath = "./sample/index.tsx",
+        filetype = "typescriptreact",
+        linenr = 12,
+        key = [[i<span]],
+        before = [[<div> <p> | </p> </div> ]],
+        after = [[<div> <p> <span </p> </div> ]],
+        -- not  [[<div> <div> <span </div> </span> ]],
+    },
+    {
+        name = "typescriptreact rename outer with inner syntax errors",
+        filepath = "./sample/index.tsx",
+        filetype = "typescriptreact",
+        linenr = 12,
+        key = [[ciwli]],
+        before = [[<div> <|p> < </p> </div> ]],
+        after = [[<div> <li> < </li> </div> ]],
+    },
 }
 
 local autotag = require("nvim-ts-autotag")

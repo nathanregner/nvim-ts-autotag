@@ -300,12 +300,14 @@ local function validate_tag_regex(node, start_regex, end_regex)
     return false
 end
 
+---@param node TSNode
 local function validate_start_tag(node)
-    return validate_tag_regex(node, "^%<%w", "%>$")
+    return not node:has_error() and validate_tag_regex(node, "^%<%w", "%>$")
 end
 
+---@param node TSNode
 local function validate_close_tag(node)
-    return validate_tag_regex(node, "^%<%/%w", "%>$")
+    return not node:has_error() and validate_tag_regex(node, "^%<%/%w", "%>$")
 end
 
 local function rename_start_tag()
